@@ -10,7 +10,7 @@ public class ConsumptionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "consumption_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "amount", nullable = false)
     private Integer amount;
@@ -34,11 +34,11 @@ public class ConsumptionEntity {
         this.meteringPoint = meteringPoint;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

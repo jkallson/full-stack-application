@@ -10,7 +10,7 @@ public class MeteringPointEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "metering_point_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "address", nullable = false)
     private String address;
@@ -29,11 +29,11 @@ public class MeteringPointEntity {
         this.customer = customer;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
