@@ -2,7 +2,7 @@ package com.assignment.backend.entities;
 
 import jakarta.persistence.*;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "consumption")
@@ -19,7 +19,7 @@ public class ConsumptionEntity {
     private String amountUnit;
 
     @Column(name = "consumption_time", nullable = false)
-    private Instant consumptionTime;
+    private ZonedDateTime consumptionTime;
 
     @ManyToOne
     @JoinColumn(name = "metering_point_id", nullable = false)
@@ -27,7 +27,7 @@ public class ConsumptionEntity {
 
     public ConsumptionEntity() {}
 
-    public ConsumptionEntity(Integer amount, String amountUnit, Instant consumptionTime, MeteringPointEntity meteringPoint) {
+    public ConsumptionEntity(Integer amount, String amountUnit, ZonedDateTime consumptionTime, MeteringPointEntity meteringPoint) {
         this.amount = amount;
         this.amountUnit = amountUnit;
         this.consumptionTime = consumptionTime;
@@ -58,11 +58,11 @@ public class ConsumptionEntity {
         this.amountUnit = amountUnit;
     }
 
-    public Instant getConsumptionTime() {
+    public ZonedDateTime getConsumptionTime() {
         return consumptionTime;
     }
 
-    public void setConsumptionTime(Instant consumptionTime) {
+    public void setConsumptionTime(ZonedDateTime consumptionTime) {
         this.consumptionTime = consumptionTime;
     }
 
