@@ -2,12 +2,15 @@ package com.assignment.backend.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 
+
+@EnableConfigurationProperties(JwtProperties.class)
 @Service
 public class JwtUtil {
     private final JwtProperties jwtProperties;
@@ -15,14 +18,14 @@ public class JwtUtil {
 
     public JwtUtil(JwtProperties jwtProperties) {
         this.jwtProperties = jwtProperties;
-        this.key = Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes());
+        this.key = Keys.hmacShaKeyFor(jwtProperties.secretKey().getBytes());
     }
 
     public String generateToken(String username) {
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getExpirationTime()))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.expirationTime()))
                 .signWith(key)
                 .compact();
     }
