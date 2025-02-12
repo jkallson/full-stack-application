@@ -1,0 +1,16 @@
+.header {
+    margin-bottom: 100px;
+    background-color: white
+}
+
+.header-logo-container {
+    display: flex;
+    height: 80px;
+    align-items: center;
+}
+
+@media (max-width: 36em) {
+    .header {
+        margin-bottom: 25px;
+    }
+}
