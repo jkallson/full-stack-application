@@ -20,7 +20,7 @@ export function Login() {
     function handleSubmit(values: { username: string, password: string }) {
         console.log(values)
         setIsLoading(true)
-        navigate('/')
+        navigate('/dashboard')
     }
 
     return (

@@ -1,10 +1,10 @@
-import {Header} from "./components/Header.tsx";
+import {AuthHeader} from "./components/AuthHeader.tsx";
 import {Login} from "./components/Login.tsx";
 
 export function AuthLayout() {
     return (
         <>
-            <Header></Header>
+            <AuthHeader></AuthHeader>
             <Login></Login>
         </>
     )

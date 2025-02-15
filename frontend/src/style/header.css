@@ -6,7 +6,12 @@
 .header-logo-container {
     display: flex;
     height: 80px;
+    justify-content: space-between;
     align-items: center;
+}
+
+.header-image {
+    cursor: pointer;
 }
 
 @media (max-width: 36em) {

@@ -1,7 +1,7 @@
 import '../../../style/header.css'
 import '../../../App.css'
 
-export function Header () {
+export function AuthHeader () {
     return (
         <div className="header">
             <div className="container">
