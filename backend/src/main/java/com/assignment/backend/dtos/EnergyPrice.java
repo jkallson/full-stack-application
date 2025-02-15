@@ -9,4 +9,8 @@ public record EnergyPrice (
         Double eurPerMwhWithVat,
         ZonedDateTime fromDateTime,
         ZonedDateTime toDateTime
-) {}
+) {
+    public boolean includes(ZonedDateTime time) {
+        return !time.isBefore(this.fromDateTime) && !time.isAfter(this.toDateTime);
+    }
+}

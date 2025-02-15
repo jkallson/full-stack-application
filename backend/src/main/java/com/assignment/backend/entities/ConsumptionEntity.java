@@ -1,5 +1,6 @@
 package com.assignment.backend.entities;
 
+import com.assignment.backend.dtos.ConsumptionDto;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -72,5 +73,9 @@ public class ConsumptionEntity {
 
     public void setMeteringPoint(MeteringPointEntity meteringPoint) {
         this.meteringPoint = meteringPoint;
+    }
+
+    public ConsumptionDto toDto() {
+        return new ConsumptionDto(getAmount(), getAmountUnit(), getConsumptionTime());
     }
 }
