@@ -43,7 +43,7 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return Jwts.parser()
                 .verifyWith((SecretKey) key)
                 .build()
