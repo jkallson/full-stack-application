@@ -36,7 +36,7 @@ public class AuthenticationControllerIT {
     }
 
     @Test
-    @DisplayName("If correct login information is used -> HttpStatus.FORBIDDEN")
+    @DisplayName("If correct login information is used -> HttpStatus.OK")
     void test02() {
         LoginRequest registerRequest = new LoginRequest("marimets", "marimets");
         ResponseEntity<String> registerResponse = restTemplate.postForEntity(
