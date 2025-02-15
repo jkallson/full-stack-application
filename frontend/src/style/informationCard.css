@@ -4,8 +4,3 @@ h2 {
     font-size: 30px;
     font-weight: 400;
 }
-
-.justify-end {
-    display: flex;
-    justify-content: end;
-}
