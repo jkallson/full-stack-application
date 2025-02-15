@@ -9,7 +9,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/consumption")
 public class ConsumptionController {
     private final ConsumptionService consumptionService;
 
@@ -17,7 +17,7 @@ public class ConsumptionController {
         this.consumptionService = consumptionService;
     }
 
-    @GetMapping("/consumption")
+    @GetMapping("/metering-points")
     public List<MeteringPointConsumption> meteringPointConsumptions (Principal principal) {
         return consumptionService.getMeteringPointsConsumption(principal.getName());
     }
