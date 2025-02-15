@@ -3,8 +3,10 @@ import {BarChart} from "@mantine/charts";
 import {data} from "../data.ts";
 import '../../../style/utils.css'
 import {useNavigate} from "react-router";
+import {MdOutlineSearch} from "react-icons/md";
 
-export function DashboardDetailsView () {
+
+export function DashboardDetailsView() {
     let navigate = useNavigate();
 
     const goToDashboard = () => {
@@ -13,52 +15,53 @@ export function DashboardDetailsView () {
 
     return (
         <Grid>
-            <Grid.Col span={{ base: 12 }} className="justify-end">
+            <Grid.Col span={{base: 12}} className="justify-end">
                 <Button onClick={goToDashboard}>Tagasi</Button>
             </Grid.Col>
-            <Grid.Col span={{ base: 12 }}>
+            <Grid.Col span={{base: 12}}>
                 <Card shadow="sm" padding="lg" radius="md" withBorder>
                     <Select
                         label="Aadress"
                         placeholder="Palun valige aadress"
                         data={['React', 'Angular', 'Vue', 'Svelte']}
                         defaultValue="React"
+                        leftSectionPointerEvents="none"
+                        leftSection={<MdOutlineSearch size={16}/>}
                         allowDeselect={false}
+                        comboboxProps={{transitionProps: {transition: 'pop', duration: 100}}}
                     />
                 </Card>
             </Grid.Col>
-            <Grid.Col span={{ base: 12 }}>
-                <Card shadow="sm" padding="lg" radius="md" withBorder>
-                    <Grid>
-                        <Grid.Col span={{base: 12}}>
-                            <Card shadow="sm" padding="lg" radius="md" withBorder mt={10}>
-                                <Text mb="md" pl="md">
-                                    Consumption:
-                                </Text>
+            <Grid.Col span={{base: 12}}>
+                <Grid>
+                    <Grid.Col span={{base: 12}}>
+                        <Card shadow="sm" padding="lg" radius="md" withBorder>
+                            <Text mb="md" pl="md">
+                                Elektrikasutus:
+                            </Text>
 
-                                <BarChart
-                                    h={180}
-                                    data={data}
-                                    dataKey="month"
-                                    series={[{name: 'Smartphones', color: 'violet.6'}]}
-                                    barChartProps={{syncId: 'tech'}}
-                                />
+                            <BarChart
+                                h={180}
+                                data={data}
+                                dataKey="month"
+                                series={[{name: 'Smartphones', color: 'violet.6'}]}
+                                barChartProps={{syncId: 'tech'}}
+                            />
 
-                                <Text mb="md" pl="md" mt="xl">
-                                    Price:
-                                </Text>
+                            <Text mb="md" pl="md" mt="xl">
+                                Rahaline kulu:
+                            </Text>
 
-                                <BarChart
-                                    h={180}
-                                    data={data}
-                                    dataKey="month"
-                                    barChartProps={{syncId: 'tech'}}
-                                    series={[{name: 'Smartphones', color: 'teal.6'}]}
-                                />
-                            </Card>
-                        </Grid.Col>
-                    </Grid>
-                </Card>
+                            <BarChart
+                                h={180}
+                                data={data}
+                                dataKey="month"
+                                barChartProps={{syncId: 'tech'}}
+                                series={[{name: 'Smartphones', color: 'teal.6'}]}
+                            />
+                        </Card>
+                    </Grid.Col>
+                </Grid>
             </Grid.Col>
         </Grid>
     )
