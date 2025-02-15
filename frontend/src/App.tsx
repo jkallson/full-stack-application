@@ -1,8 +1,9 @@
 import './App.css'
 import {createTheme, MantineProvider} from "@mantine/core";
 import '@mantine/core/styles.css';
-import {Login} from "./pages/Login.tsx";
-import {Header} from "./components/Header.tsx";
+import {BrowserRouter, Route, Routes} from "react-router";
+import {AuthLayout} from "./pages/auth/AuthLayout.tsx";
+import {DashboardLayout} from "./pages/dashboard/components/DashboardLayout.tsx";
 
 const theme = createTheme({
     primaryColor: "customGreen",
@@ -25,10 +26,12 @@ const theme = createTheme({
 function App() {
     return (
         <MantineProvider theme={theme}>
-            <Header></Header>
-            <div className="container">
-                <Login></Login>
-            </div>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/login" element={<AuthLayout/>}/>
+                    <Route path="/" element={<DashboardLayout/>}/>
+                </Routes>
+            </BrowserRouter>
         </MantineProvider>
     )
 }
