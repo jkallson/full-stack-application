@@ -7,6 +7,7 @@ import {AuthLayout} from "./pages/auth/AuthLayout.tsx";
 import {DashboardLayout} from "./pages/dashboard/DashboardLayout.tsx";
 import {DashboardView} from "./pages/dashboard/views/DashboardView.tsx";
 import {DashboardDetailsView} from "./pages/dashboard/views/DashboardDetailsView.tsx";
+import {AuthProvider} from "./context/AuthContext.tsx";
 
 const theme = createTheme({
     primaryColor: "customGreen",
@@ -29,16 +30,18 @@ const theme = createTheme({
 function App() {
     return (
         <MantineProvider theme={theme}>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="login" element={<AuthLayout/>}/>
-                    <Route path="/" element={<Navigate to="/dashboard" replace />}/>
-                    <Route path="dashboard" element={<DashboardLayout/>}>
-                        <Route index element={<DashboardView/>} />
-                        <Route path="details" element={<DashboardDetailsView/>} />
-                    </Route>
-                </Routes>
-            </BrowserRouter>
+            <AuthProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="login" element={<AuthLayout/>}/>
+                        <Route path="/" element={<Navigate to="/dashboard" replace/>}/>
+                        <Route path="dashboard" element={<DashboardLayout/>}>
+                            <Route index element={<DashboardView/>}/>
+                            <Route path="details" element={<DashboardDetailsView/>}/>
+                        </Route>
+                    </Routes>
+                </BrowserRouter>
+            </AuthProvider>
         </MantineProvider>
     )
 }

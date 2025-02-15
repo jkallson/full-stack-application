@@ -4,10 +4,13 @@ import {MdKeyboardArrowRight} from "react-icons/md";
 import '../../../App.css'
 import {isNotEmpty, useForm} from "@mantine/form";
 import {useNavigate} from "react-router";
+import {LoginRepository, LoginResponse} from "../../../repositories/LoginRepository.ts";
+import {useAuth} from "../../../context/AuthContext.tsx";
 
 export function Login() {
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    let navigate = useNavigate();
+    const { login } = useAuth()
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {username: '', password: ''},
@@ -17,10 +20,18 @@ export function Login() {
         },
     });
 
-    function handleSubmit(values: { username: string, password: string }) {
-        console.log(values)
+    async function handleSubmit(values: { username: string, password: string }) {
         setIsLoading(true)
-        navigate('/dashboard')
+
+        try {
+            const response: LoginResponse = await LoginRepository.login(values)
+            login(response)
+            navigate('/dashboard')
+        } catch (err) {
+            // TODO: show notification
+            console.log(err)
+            setIsLoading(false)
+        }
     }
 
     return (

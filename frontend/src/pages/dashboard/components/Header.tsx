@@ -3,16 +3,19 @@ import '../../../App.css'
 import {Button, Menu} from "@mantine/core";
 import { MdOutlinePerson, MdKeyboardArrowDown, MdLogout } from "react-icons/md";
 import {useNavigate} from "react-router";
+import {useAuth} from "../../../context/AuthContext.tsx";
 
 
 export function Header () {
     let navigate = useNavigate();
+    const { logout, user } = useAuth();
 
     const toDashboard = (): void => {
         navigate('/dashboard')
     }
 
-    const logout = (): void => {
+    const onLogoutClicked = (): void => {
+        logout()
         navigate('/login')
     }
 
@@ -28,12 +31,12 @@ export function Header () {
                                     leftSection={<MdOutlinePerson size={25} />}
                                     rightSection={<MdKeyboardArrowDown size={20} />}
                                 >
-                                    Mari Mets
+                                    { user }
                                 </Button>
                         </Menu.Target>
 
                         <Menu.Dropdown>
-                            <Menu.Item leftSection={<MdLogout size={14} />} onClick={logout}>
+                            <Menu.Item leftSection={<MdLogout size={14} />} onClick={onLogoutClicked}>
                                 Logi välja
                             </Menu.Item>
                         </Menu.Dropdown>
