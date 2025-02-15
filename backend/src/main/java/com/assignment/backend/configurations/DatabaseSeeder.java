@@ -13,8 +13,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Configuration
 public class DatabaseSeeder {
@@ -43,17 +46,16 @@ public class DatabaseSeeder {
 
                 meteringPointRepository.saveAll(List.of(meteringPoint1, meteringPoint2, meteringPoint3));
 
-                ZonedDateTime lastYear = ZonedDateTime.now().minusYears(1);
+                List<ConsumptionEntity> consumptions = new ArrayList<>();
 
-                List<ConsumptionEntity> consumptions = List.of(
-                        new ConsumptionEntity(50, "kWh", lastYear, meteringPoint1),
-                        new ConsumptionEntity(30, "kWh", lastYear, meteringPoint2),
-                        new ConsumptionEntity(35, "kWh", lastYear.plusMonths(1), meteringPoint2),
-                        new ConsumptionEntity(55, "kWh", lastYear.plusMonths(2), meteringPoint2),
-                        new ConsumptionEntity(12, "kWh", lastYear.plusMonths(3), meteringPoint2),
-                        new ConsumptionEntity(70, "kWh", lastYear.plusMonths(2), meteringPoint3),
-                        new ConsumptionEntity(90, "kWh", lastYear.plusMonths(5), meteringPoint3)
-                );
+                for (int i = 0; i < 12; i++) {
+                    ZonedDateTime time = createDateTimeFrom(2024, i + 1, 12);
+                    consumptions.add(new ConsumptionEntity(generateAmount(), "kWh", time, meteringPoint1));
+                    consumptions.add(new ConsumptionEntity(generateAmount(), "kWh", time, meteringPoint2));
+                    consumptions.add(new ConsumptionEntity(generateAmount(), "kWh", time, meteringPoint3));
+                }
+
+                consumptions.add(new ConsumptionEntity(generateAmount(), "kWh", createDateTimeFrom(2024, 1, 16), meteringPoint1));
 
                 consumptionRepository.saveAll(consumptions);
 
@@ -62,5 +64,13 @@ public class DatabaseSeeder {
                 log.info("Database already contains data. Skipping seeding.");
             }
         };
+    }
+
+    private Integer generateAmount() {
+        return ThreadLocalRandom.current().nextInt(150, 701);
+    }
+
+    private ZonedDateTime createDateTimeFrom(Integer year, Integer month, Integer day) {
+        return ZonedDateTime.of(year, month, month, day, 0, 0, 0, ZoneId.systemDefault());
     }
 }

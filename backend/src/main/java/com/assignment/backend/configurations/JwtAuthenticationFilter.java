@@ -51,7 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             final String jwt = authHeader.substring(7);
 
-            if (!jwtUtils.isTokenExpired(jwt)) {
+            if (jwtUtils.isTokenExpired(jwt)) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token has expired. Please log in again.");
                 return;
             }
