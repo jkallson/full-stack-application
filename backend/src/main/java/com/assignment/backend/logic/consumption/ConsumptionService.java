@@ -1,7 +1,7 @@
-package com.assignment.backend.logic.users;
+package com.assignment.backend.logic.consumption;
 
 import com.assignment.backend.dtos.ConsumptionDto;
-import com.assignment.backend.dtos.EnergyPrice;
+import com.assignment.backend.dtos.EnergyPriceDto;
 import com.assignment.backend.entities.ConsumptionEntity;
 import com.assignment.backend.entities.CustomerEntity;
 import com.assignment.backend.entities.MeteringPointEntity;
@@ -21,14 +21,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
-    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+public class ConsumptionService {
+    private static final Logger log = LoggerFactory.getLogger(ConsumptionService.class);
 
     private final MeteringPointRepository meteringPointRepository;
     private final CustomerRepository customerRepository;
     private final EnergyPriceService energyPriceService;
 
-    public UserService(MeteringPointRepository meteringPointRepository, CustomerRepository customerRepository, EnergyPriceService energyPriceService) {
+    public ConsumptionService(MeteringPointRepository meteringPointRepository, CustomerRepository customerRepository, EnergyPriceService energyPriceService) {
         this.meteringPointRepository = meteringPointRepository;
         this.energyPriceService = energyPriceService;
         this.customerRepository = customerRepository;
@@ -39,7 +39,7 @@ public class UserService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "User not found"));
 
         List<MeteringPointEntity> meteringPoints = meteringPointRepository.findAllByCustomer(customer);
-        List<EnergyPrice> energyPrices = energyPriceService.getEnergyPrices();
+        List<EnergyPriceDto> energyPrices = energyPriceService.getEnergyPrices();
 
         return meteringPoints.stream()
                 .map(meteringPoint -> new MeteringPointConsumption(
@@ -49,7 +49,7 @@ public class UserService {
                 .toList();
     }
 
-    private List<MonthlyConsumption> findMonthlyConsumption(MeteringPointEntity meteringPoint, List<EnergyPrice> prices) {
+    private List<MonthlyConsumption> findMonthlyConsumption(MeteringPointEntity meteringPoint, List<EnergyPriceDto> prices) {
         Map<YearMonth, List<ConsumptionEntity>> grouped = meteringPoint.getConsumptions().stream()
                 .collect(Collectors.groupingBy(cons -> YearMonth.from(cons.getConsumptionTime())));
 
@@ -66,7 +66,7 @@ public class UserService {
                             .sum();
 
                     ZonedDateTime consumptionTime = consumptions.getFirst().time();
-                    EnergyPrice energyPrice = prices.stream()
+                    EnergyPriceDto energyPrice = prices.stream()
                             .filter(price -> price.includes(consumptionTime))
                             .findFirst()
                             .orElseGet(() -> {
@@ -81,6 +81,6 @@ public class UserService {
 
     public record MeteringPointConsumption(String address, List<MonthlyConsumption> consumptions) { }
 
-    public record MonthlyConsumption(Integer year, Integer month, Double totalConsumption, EnergyPrice energyPrice, List<ConsumptionDto> entries) { }
+    public record MonthlyConsumption(Integer year, Integer month, Double totalConsumption, EnergyPriceDto energyPrice, List<ConsumptionDto> entries) { }
 
 }

@@ -1,11 +1,11 @@
 package com.assignment.backend;
 
-import com.assignment.backend.dtos.EnergyPrice;
+import com.assignment.backend.dtos.EnergyPriceDto;
 import com.assignment.backend.entities.ConsumptionEntity;
 import com.assignment.backend.entities.CustomerEntity;
 import com.assignment.backend.entities.MeteringPointEntity;
 import com.assignment.backend.logic.EnergyPriceService;
-import com.assignment.backend.logic.users.UserService;
+import com.assignment.backend.logic.consumption.ConsumptionService;
 import com.assignment.backend.repositories.CustomerRepository;
 import com.assignment.backend.repositories.MeteringPointRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static com.assignment.backend.logic.users.UserService.*;
+import static com.assignment.backend.logic.consumption.ConsumptionService.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -38,10 +38,10 @@ class ConsumptionTests {
     private EnergyPriceService energyPriceService;
 
     @InjectMocks
-    private UserService userService;
+    private ConsumptionService consumptionService;
 
     private MeteringPointEntity testMeteringPoint;
-    private List<EnergyPrice> mockEnergyPrices;
+    private List<EnergyPriceDto> mockEnergyPrices;
 
     @BeforeEach
     void setUp() {
@@ -51,11 +51,11 @@ class ConsumptionTests {
         testMeteringPoint.setAddress("Test Address");
 
         mockEnergyPrices = List.of(
-                new EnergyPrice(10.0, 12.0, 100.0, 120.0,
+                new EnergyPriceDto(10.0, 12.0, 100.0, 120.0,
                         ZonedDateTime.parse("2024-01-01T00:00:00Z"),
                         ZonedDateTime.parse("2024-01-31T23:59:59.999999999Z")),
 
-                new EnergyPrice(8.5, 10.2, 85.0, 102.0,
+                new EnergyPriceDto(8.5, 10.2, 85.0, 102.0,
                         ZonedDateTime.parse("2024-02-01T00:00:00Z"),
                         ZonedDateTime.parse("2024-02-29T23:59:59.999999999Z"))
         );
@@ -76,7 +76,7 @@ class ConsumptionTests {
         );
 
         when(testMeteringPoint.getConsumptions()).thenReturn(mockConsumptions);
-        List<MeteringPointConsumption> result = userService.getMeteringPointsConsumption("testUser");
+        List<MeteringPointConsumption> result = consumptionService.getMeteringPointsConsumption("testUser");
 
         // since we only have one metering point assert that it exists
         assertNotNull(result);
@@ -114,7 +114,7 @@ class ConsumptionTests {
 
         when(testMeteringPoint.getConsumptions()).thenReturn(mockConsumptions);
 
-        List<MeteringPointConsumption> result = userService.getMeteringPointsConsumption("testUser");
+        List<MeteringPointConsumption> result = consumptionService.getMeteringPointsConsumption("testUser");
 
         assertNotNull(result);
         assertEquals(1, result.size());

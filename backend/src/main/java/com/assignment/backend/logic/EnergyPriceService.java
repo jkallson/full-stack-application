@@ -1,6 +1,6 @@
 package com.assignment.backend.logic;
 
-import com.assignment.backend.dtos.EnergyPrice;
+import com.assignment.backend.dtos.EnergyPriceDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -18,7 +18,7 @@ public class EnergyPriceService {
     }
 
 
-    public List<EnergyPrice> getEnergyPrices () {
+    public List<EnergyPriceDto> getEnergyPrices () {
         String urlTemplate = UriComponentsBuilder.fromUriString(API_URL)
                 .queryParam("startDateTime", "2024-01-01T00:00:00.000Z")
                 .queryParam("endDateTime", "2024-12-31T23:59:59.999Z")
@@ -26,7 +26,7 @@ public class EnergyPriceService {
                 .encode()
                 .toUriString();
 
-        EnergyPrice[] response = restTemplate.getForObject(urlTemplate, EnergyPrice[].class);
+        EnergyPriceDto[] response = restTemplate.getForObject(urlTemplate, EnergyPriceDto[].class);
 
         if (response == null) {
             return List.of();

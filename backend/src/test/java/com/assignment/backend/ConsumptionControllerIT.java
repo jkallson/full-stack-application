@@ -12,7 +12,7 @@ import org.springframework.http.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserControllerIT {
+public class ConsumptionControllerIT {
     @Autowired
     private TestRestTemplate restTemplate;
 

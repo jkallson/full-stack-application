@@ -2,7 +2,7 @@ package com.assignment.backend.dtos;
 
 import java.time.ZonedDateTime;
 
-public record EnergyPrice (
+public record EnergyPriceDto(
         Double centsPerKwh,
         Double centsPerKwhWithVat,
         Double eurPerMwh,
