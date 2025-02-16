@@ -1,6 +1,5 @@
 import {Card, Container, Grid, Tabs} from "@mantine/core";
 import {MdElectricBolt, MdEuroSymbol} from "react-icons/md";
-import '../../../style/dashboardLayout.css'
 import {useEffect, useMemo, useState} from "react";
 import {MeteringPoint, MeteringPointsRepository} from "../../../repositories/MeteringPointsRepository.ts";
 import {useAuth} from "../../../context/AuthContext.tsx";

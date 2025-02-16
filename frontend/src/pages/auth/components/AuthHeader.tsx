@@ -1,4 +1,3 @@
-import '../../../style/header.css'
 import '../../../App.css'
 
 export function AuthHeader () {

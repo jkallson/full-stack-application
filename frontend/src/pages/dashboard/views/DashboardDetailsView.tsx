@@ -1,5 +1,4 @@
 import {Button, Card, Grid, Select, Text} from "@mantine/core";
-import '../../../style/utils.css'
 import {useNavigate} from "react-router";
 import {MdBarChart, MdElectricBolt, MdEuroSymbol, MdMapsHomeWork, MdOutlineSearch} from "react-icons/md";
 import {useEffect, useMemo, useState} from "react";

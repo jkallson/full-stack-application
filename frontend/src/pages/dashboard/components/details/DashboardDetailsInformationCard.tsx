@@ -15,7 +15,7 @@ export function DashboardDetailsInformationCard({title, text, icon, loading}: Ca
                 loading
                     ? <Grid h={54} className="flex align-center">
                         <Grid.Col span={12} className="flex justify-center">
-                            <Loader size={50}></Loader>
+                            <Loader size={35}></Loader>
                         </Grid.Col>
                     </Grid>
                     :

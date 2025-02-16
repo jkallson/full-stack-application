@@ -1,4 +1,3 @@
-import '../../../style/header.css'
 import '../../../App.css'
 import {Button, Menu} from "@mantine/core";
 import { MdOutlinePerson, MdKeyboardArrowDown, MdLogout } from "react-icons/md";
