@@ -1,21 +1,28 @@
 import {BarChart} from "@mantine/charts";
-import {BarChartEntry} from "../../ts/BarChartInterfaces.ts";
+import {BarChartEntry, BarChartSeries} from "../../ts/BarChartInterfaces.ts";
+import {Loader} from "@mantine/core";
 
 export interface DashboardConsumptionBarChartProps {
     data: BarChartEntry[]
-    series: any
+    series: BarChartSeries[],
+    loading: boolean
 }
 
-export function DashboardConsumptionBarChart ({ data, series }: DashboardConsumptionBarChartProps) {
+export function DashboardConsumptionBarChart({data, series, loading}: DashboardConsumptionBarChartProps) {
     return (
-        <BarChart
-            h={300}
-            data={data}
-            withLegend={true}
-            dataKey="month"
-            valueFormatter={(value) => value + 'kwH'}
-            type="stacked"
-            series={series}
-        />
+        <>
+            {loading
+                ? <Loader h={300} className={"flex full-width align-center justify-center"}></Loader>
+                : <BarChart
+                    h={300}
+                    data={data}
+                    withLegend={true}
+                    dataKey="month"
+                    valueFormatter={(value) => value + 'kwH'}
+                    type="stacked"
+                    series={series}
+                />
+            }
+        </>
     )
 }

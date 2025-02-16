@@ -1,13 +1,14 @@
-import {Button, Card, Grid, Loader, Select, Text} from "@mantine/core";
+import {Button, Card, Grid, Select, Text} from "@mantine/core";
 import '../../../style/utils.css'
 import {useNavigate} from "react-router";
 import {MdBarChart, MdElectricBolt, MdEuroSymbol, MdMapsHomeWork, MdOutlineSearch} from "react-icons/md";
 import {useEffect, useMemo, useState} from "react";
 import {MeteringPointsDomain} from "../ts/MeteringPointsDomain.ts";
 import {MeteringPoint, MeteringPointsRepository} from "../../../repositories/MeteringPointsRepository.ts";
-import {DashboardDetailsInformationCard} from "../components/general/DashboardDetailsInformationCard.tsx";
 import {DashboardPriceBarChart} from "../components/charts/DashboardPriceBarChart.tsx";
 import {DashboardConsumptionBarChart} from "../components/charts/DashboardConsumptionBarChart.tsx";
+import {DashboardDetailsInformationCard} from "../components/details/DashboardDetailsInformationCard.tsx";
+import {Chart} from "../ts/BarChartInterfaces.ts";
 
 
 export function DashboardDetailsView() {
@@ -32,8 +33,8 @@ export function DashboardDetailsView() {
     const averageUsage: string = useMemo(() => meteringPoints?.averageMonthlyConsumptionFor(selectedAddress!) ?? "", [meteringPoints, selectedAddress]);
     const averagePrice: string = useMemo(() => meteringPoints?.averageMonthlyPriceFor(selectedAddress!) ?? "", [meteringPoints, selectedAddress]);
 
-    const perMonthConsumptionGraph = useMemo(() => meteringPoints?.consumptionChartFor(selectedAddress!) ?? { result: [], series: [] }, [meteringPoints, selectedAddress]);
-    const perMonthPriceGraph = useMemo(() => meteringPoints?.priceChartFor(selectedAddress!) ?? { result: [], series: [] }, [meteringPoints, selectedAddress]);
+    const perMonthConsumptionChart: Chart = useMemo(() => meteringPoints?.consumptionChartFor(selectedAddress!) ?? { result: [], series: [] }, [meteringPoints, selectedAddress]);
+    const perMonthPriceChart: Chart = useMemo(() => meteringPoints?.priceChartFor(selectedAddress!) ?? { result: [], series: [] }, [meteringPoints, selectedAddress]);
 
     return (
         <Grid>
@@ -62,6 +63,7 @@ export function DashboardDetailsView() {
                             title="Keskmine kuutasu"
                             text={averagePrice + " €"}
                             icon={<MdEuroSymbol size={20}/>}
+                            loading={loading}
                         ></DashboardDetailsInformationCard>
                     </Grid.Col>
                     <Grid.Col span={{base: 12, xs: 6, md: 3}}>
@@ -69,6 +71,7 @@ export function DashboardDetailsView() {
                             title="Keskmine kasutus"
                             text={averageUsage + " kwH"}
                             icon={<MdElectricBolt size={20}/>}
+                            loading={loading}
                         ></DashboardDetailsInformationCard>
                     </Grid.Col>
                     <Grid.Col span={{base: 12, xs: 6, md: 3}}>
@@ -76,6 +79,7 @@ export function DashboardDetailsView() {
                             title="Tasu kokku"
                             text={totalPrice + " €"}
                             icon={<MdBarChart size={20}/>}
+                            loading={loading}
                         ></DashboardDetailsInformationCard>
                     </Grid.Col>
                     <Grid.Col span={{base: 12, xs: 6, md: 3}}>
@@ -83,6 +87,7 @@ export function DashboardDetailsView() {
                             title="Kasutus kokku"
                             text={totalUsage + " kwH"}
                             icon={<MdMapsHomeWork size={20}/>}
+                            loading={loading}
                         ></DashboardDetailsInformationCard>
                     </Grid.Col>
                 </Grid>
@@ -93,8 +98,9 @@ export function DashboardDetailsView() {
                         Elektrikasutus:
                     </Text>
                     <DashboardConsumptionBarChart
-                        data={perMonthConsumptionGraph.result}
-                        series={perMonthConsumptionGraph.series}
+                        data={perMonthConsumptionChart.result}
+                        series={perMonthConsumptionChart.series}
+                        loading={loading}
                     ></DashboardConsumptionBarChart>
                 </Card>
             </Grid.Col>
@@ -104,8 +110,9 @@ export function DashboardDetailsView() {
                         Rahaline kulu:
                     </Text>
                     <DashboardPriceBarChart
-                        data={perMonthPriceGraph.result}
-                        series={perMonthPriceGraph.series}
+                        data={perMonthPriceChart.result}
+                        series={perMonthPriceChart.series}
+                        loading={loading}
                     ></DashboardPriceBarChart>
                 </Card>
             </Grid.Col>

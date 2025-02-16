@@ -5,9 +5,10 @@ import {useEffect, useMemo, useState} from "react";
 import {MeteringPoint, MeteringPointsRepository} from "../../../repositories/MeteringPointsRepository.ts";
 import {useAuth} from "../../../context/AuthContext.tsx";
 import {MeteringPointsDomain} from "../ts/MeteringPointsDomain.ts";
-import {DashboardGeneralInformationCard} from "../components/details/DashboardGeneralInformationCard.tsx";
 import {DashboardConsumptionBarChart} from "../components/charts/DashboardConsumptionBarChart.tsx";
 import {DashboardPriceBarChart} from "../components/charts/DashboardPriceBarChart.tsx";
+import {DashboardGeneralInformationCard} from "../components/general/DashboardGeneralInformationCard.tsx";
+import {Chart} from "../ts/BarChartInterfaces.ts";
 
 export function DashboardView() {
     const { user } = useAuth();
@@ -25,8 +26,8 @@ export function DashboardView() {
     const totalConsumptionAmount: number = useMemo(() => meteringPoints?.totalConsumption() ?? 0, [meteringPoints])
     const totalPriceAmount: string = useMemo(() => meteringPoints?.totalPrice() ?? "", [meteringPoints])
 
-    const totalConsumptionGraph = useMemo(() => meteringPoints?.totalConsumptionChart() ?? { result: [], series: [] }, [meteringPoints])
-    const totalPriceGraph = useMemo(() => meteringPoints?.totalPriceChart() ?? { result: [], series: [] }, [meteringPoints])
+    const totalConsumptionChart: Chart = useMemo(() => meteringPoints?.totalConsumptionChart() ?? { result: [], series: [] }, [meteringPoints])
+    const totalPriceChart: Chart = useMemo(() => meteringPoints?.totalPriceChart() ?? { result: [], series: [] }, [meteringPoints])
 
     return (
         <Container fluid={true} p={0} pb={20}>
@@ -65,16 +66,18 @@ export function DashboardView() {
                         <Tabs.Panel value="first" p={0} m={0}>
                             <Card className="tab-panel" shadow="sm" withBorder>
                                 <DashboardConsumptionBarChart
-                                    data={totalConsumptionGraph.result}
-                                    series={totalConsumptionGraph.series}
+                                    data={totalConsumptionChart.result}
+                                    series={totalConsumptionChart.series}
+                                    loading={loading}
                                 ></DashboardConsumptionBarChart>
                             </Card>
                         </Tabs.Panel>
                         <Tabs.Panel value="second" p={0} m={0}>
                             <Card className="tab-panel" shadow="sm" radius="md" withBorder>
                                 <DashboardPriceBarChart
-                                    data={totalPriceGraph.result}
-                                    series={totalPriceGraph.series}
+                                    data={totalPriceChart.result}
+                                    series={totalPriceChart.series}
+                                    loading={loading}
                                 ></DashboardPriceBarChart>
                             </Card>
                         </Tabs.Panel>
