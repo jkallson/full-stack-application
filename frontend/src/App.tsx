@@ -2,12 +2,14 @@ import './App.css'
 import {createTheme, MantineProvider} from "@mantine/core";
 import '@mantine/core/styles.css';
 import '@mantine/charts/styles.css';
+import '@mantine/notifications/styles.css';
 import {BrowserRouter, Navigate, Route, Routes} from "react-router";
 import {AuthLayout} from "./pages/auth/AuthLayout.tsx";
 import {DashboardLayout} from "./pages/dashboard/DashboardLayout.tsx";
 import {DashboardView} from "./pages/dashboard/views/DashboardView.tsx";
 import {DashboardDetailsView} from "./pages/dashboard/views/DashboardDetailsView.tsx";
 import {AuthProvider} from "./context/AuthContext.tsx";
+import {Notifications} from "@mantine/notifications";
 
 const theme = createTheme({
     primaryColor: "customGreen",
@@ -30,6 +32,7 @@ const theme = createTheme({
 function App() {
     return (
         <MantineProvider theme={theme}>
+            <Notifications></Notifications>
             <AuthProvider>
                 <BrowserRouter>
                     <Routes>

@@ -6,6 +6,7 @@ import {isNotEmpty, useForm} from "@mantine/form";
 import {useNavigate} from "react-router";
 import {LoginRepository, LoginResponse} from "../../../repositories/LoginRepository.ts";
 import {useAuth} from "../../../context/AuthContext.tsx";
+import { notifications } from '@mantine/notifications';
 
 export function Login() {
     const navigate = useNavigate();
@@ -26,10 +27,17 @@ export function Login() {
         try {
             const response: LoginResponse = await LoginRepository.login(values)
             login(response)
+            notifications.show({
+                title: 'Sisselogimine õnnesus',
+                message: `Tere, ${response.fullName}!`,
+            })
             navigate('/dashboard')
         } catch (err) {
-            // TODO: show notification
-            console.log(err)
+            notifications.show({
+                title: 'Sisselogimine ebaõnnestus',
+                color: 'orange',
+                message: 'Vale kasutajanimi ja/või parool',
+            })
             setIsLoading(false)
         }
     }

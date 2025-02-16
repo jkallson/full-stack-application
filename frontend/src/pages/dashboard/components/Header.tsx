@@ -3,6 +3,7 @@ import {Button, Menu} from "@mantine/core";
 import { MdOutlinePerson, MdKeyboardArrowDown, MdLogout } from "react-icons/md";
 import {useNavigate} from "react-router";
 import {useAuth} from "../../../context/AuthContext.tsx";
+import {notifications} from "@mantine/notifications";
 
 
 export function Header () {
@@ -14,6 +15,10 @@ export function Header () {
     }
 
     const onLogoutClicked = (): void => {
+        notifications.show({
+            title: 'Välja logitud',
+            message: 'Olete edukalt välja logitud!',
+        })
         logout()
         navigate('/login')
     }
