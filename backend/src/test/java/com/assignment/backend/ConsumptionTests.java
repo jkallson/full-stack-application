@@ -51,11 +51,11 @@ class ConsumptionTests {
         testMeteringPoint.setAddress("Test Address");
 
         mockEnergyPrices = List.of(
-                new EnergyPriceDto(10.0, 12.0, 100.0, 120.0,
+                new EnergyPriceDto(10.0, 15.0, 100.0, 120.0,
                         ZonedDateTime.parse("2024-01-01T00:00:00Z"),
                         ZonedDateTime.parse("2024-01-31T23:59:59.999999999Z")),
 
-                new EnergyPriceDto(8.5, 10.2, 85.0, 102.0,
+                new EnergyPriceDto(5.0, 10.0, 85.0, 102.0,
                         ZonedDateTime.parse("2024-02-01T00:00:00Z"),
                         ZonedDateTime.parse("2024-02-29T23:59:59.999999999Z"))
         );
@@ -105,9 +105,43 @@ class ConsumptionTests {
         assertEquals(mockEnergyPrices.get(1), febConsumption.energyPrice());
     }
 
+    @DisplayName("Validate that consumption costs are calculated correctly")
+    @Test
+    void test02() {
+        List<ConsumptionEntity> mockConsumptions = List.of(
+                new ConsumptionEntity(200, "kWh", ZonedDateTime.of(2024, 1, 4, 12, 0, 0, 0, ZoneId.systemDefault()), testMeteringPoint),
+                new ConsumptionEntity(150, "kWh", ZonedDateTime.of(2024, 1, 5, 12, 0, 0, 0, ZoneId.systemDefault()), testMeteringPoint),
+                new ConsumptionEntity(500, "kWh", ZonedDateTime.of(2024, 2, 6, 12, 0, 0, 0, ZoneId.systemDefault()), testMeteringPoint),
+                new ConsumptionEntity(1000, "kWh", ZonedDateTime.of(2024, 2, 6, 12, 0, 0, 0, ZoneId.systemDefault()), testMeteringPoint)
+        );
+
+        when(testMeteringPoint.getConsumptions()).thenReturn(mockConsumptions);
+        List<MeteringPointConsumption> result = consumptionService.getMeteringPointsConsumption("testUser");
+
+        MeteringPointConsumption meteringPointConsumption = result.getFirst();
+        List<MonthlyConsumption> monthlyConsumptions = meteringPointConsumption.consumptions();
+
+        // verify that January consumption cost is correct
+        MonthlyConsumption januaryConsumption = monthlyConsumptions.stream()
+                .filter(mc -> mc.month() == 1)
+                .findFirst().orElse(null);
+        assertNotNull(januaryConsumption);
+        assertEquals(35.0, januaryConsumption.consumptionCost().costPerKwh());
+        assertEquals(52.5, januaryConsumption.consumptionCost().costPerKwhWithVat());
+
+        // verify that February consumption cost is correct
+        MonthlyConsumption febConsumption = monthlyConsumptions.stream()
+                .filter(mc -> mc.month() == 2)
+                .findFirst().orElse(null);
+
+        assertNotNull(febConsumption);
+        assertEquals(75, febConsumption.consumptionCost().costPerKwh()); // (5/100) * 1500
+        assertEquals(150, febConsumption.consumptionCost().costPerKwhWithVat()); // (10/100) * 1500
+    }
+
     @Test
     @DisplayName("Handle missing energy prices gracefully")
-    void test02() {
+    void test03() {
         List<ConsumptionEntity> mockConsumptions = List.of(
                 new ConsumptionEntity(400, "kWh", ZonedDateTime.of(2024, 3, 6, 12, 0, 0, 0, ZoneId.systemDefault()), testMeteringPoint)
         );
