@@ -72,7 +72,7 @@ export function DashboardDetailsView() {
                 <Grid>
                     <Grid.Col span={{base: 12, xs: 6, md: 3}}>
                         <DashboardDetailsInformationCard
-                            title="Keskmine kuutasu"
+                            title="Keskmine kulu"
                             text={averagePrice + " €"}
                             icon={<MdEuroSymbol size={20}/>}
                             loading={loading}
@@ -88,7 +88,7 @@ export function DashboardDetailsView() {
                     </Grid.Col>
                     <Grid.Col span={{base: 12, xs: 6, md: 3}}>
                         <DashboardDetailsInformationCard
-                            title="Tasu kokku"
+                            title="Kulu kokku"
                             text={totalPrice + " €"}
                             icon={<MdBarChart size={20}/>}
                             loading={loading}
