@@ -12,8 +12,8 @@
     - Frontend runs at http://localhost:8080
 
 ### Run via docker
-- Go to backend repository and run `./gradlew build`. That generates a build file which is needed for docker-compose
-- Go to root folder (where docker-compose is) and run ` docker-compose up --build`
+- Go to backend folder and run `./gradlew build`. That generates a build file which is needed for docker-compose
+- Go back to root folder (where docker-compose is) and run ` docker-compose up --build`
 - Application should start at http://localhost:8080
 
 ## To login into the application I have created two users
