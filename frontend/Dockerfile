@@ -1,9 +1,9 @@
 FROM node:22
 WORKDIR /app
-COPY package.json .
-RUN npm install
+COPY package*.json ./
+RUN npm ci
+
 COPY . .
 RUN npm run build
 
-RUN npm install -g serve
-CMD ["serve", "-s", "dist", "-l", "8080"]
+CMD ["npx", "serve", "-s", "dist", "-l", "8080"]
