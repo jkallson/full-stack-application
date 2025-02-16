@@ -88,8 +88,12 @@ describe("MeteringPointsDomain", () => {
         expect(domain.totalConsumptionFor("Home")).toBe(200);
     });
 
-    it("Return price for given metering point", () => {
-        expect(domain.totalPriceFor("Home2")).toBe("15.00");
+    it("Return price for given metering point without vat", () => {
+        expect(domain.totalPriceFor("Home2", true)).toBe("15.00");
+    });
+
+    it("Return price for given metering point with vat", () => {
+        expect(domain.totalPriceFor("Home2", false)).toBe("20.00");
     });
 
     it("Return 0 if address is not found", () => {

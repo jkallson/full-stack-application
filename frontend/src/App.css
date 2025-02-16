@@ -1,36 +1,37 @@
 body {
-  font-family: "UniNeue",sans-serif !important;
-  font-size: 18px !important;
-  line-height: 1.47 !important;
-  background-color: #f7fafa !important;
-  color: #163f64 !important;
+    font-family: "UniNeue", sans-serif !important;
+    font-size: 18px !important;
+    line-height: 1.47 !important;
+    background-color: #f7fafa !important;
+    color: #163f64 !important;
 }
 
 @media (max-width: 36em) {
-  .hide-on-small {
-    display: none;
-  }
-  body {
-    font-size: 16px !important;
-  }
+    .hide-on-small {
+        display: none;
+    }
+
+    body {
+        font-size: 16px !important;
+    }
 }
 
 .container {
-  width: 100%;
-  max-width: 1054px;
-  margin: 0 auto;
-  padding-left: 15px;
-  padding-right: 15px;
+    width: 100%;
+    max-width: 1054px;
+    margin: 0 auto;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 h2 {
-  margin-bottom: 25px;
-  margin-top: 0;
-  font-size: 30px;
-  font-weight: 400;
+    margin-bottom: 25px;
+    margin-top: 0;
+    font-size: 30px;
+    font-weight: 400;
 }
 
 p {
-  margin-top: 0;
-  margin-bottom: 25px;
+    margin-top: 0;
+    margin-bottom: 25px;
 }

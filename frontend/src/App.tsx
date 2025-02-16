@@ -13,6 +13,7 @@ import {Notifications} from "@mantine/notifications";
 
 const theme = createTheme({
     primaryColor: "customGreen",
+    cursorType: "pointer",
     colors: {
         customGreen: [
             "#e6f5e6",

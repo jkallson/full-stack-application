@@ -3,17 +3,17 @@ import {BarChartEntry, BarChartSeries, Chart} from "./BarChartInterfaces.ts";
 
 enum Months {
     "Jan" = 1,
-    "Feb" = 2,
+    "Veb" = 2,
     "Mar" = 3,
     "Apr" = 4,
-    "May" = 5,
+    "Mai" = 5,
     "Jun" = 6,
     "Jul" = 7,
     "Aug" = 8,
     "Sep" = 9,
-    "Oct" = 10,
+    "Okt" = 10,
     "Nov" = 11,
-    "Dec" = 12,
+    "Det" = 12,
 }
 
 export class MeteringPointsDomain {
@@ -40,7 +40,7 @@ export class MeteringPointsDomain {
             .toFixed(2)
     }
 
-    public totalPriceFor(address: string): string {
+    public totalPriceFor(address: string, withoutVat: boolean): string {
         const meteringPoint = this.meteringPoints.find(it => it.address === address)
 
         if (meteringPoint === undefined) {
@@ -48,7 +48,7 @@ export class MeteringPointsDomain {
         }
 
         return meteringPoint.consumptions
-            .reduce((sum: number, val: MeteringPointConsumption): number => sum + val.consumptionCost.costPerKwh, 0)
+            .reduce((sum: number, val: MeteringPointConsumption): number => sum + (withoutVat ? val.consumptionCost.costPerKwh : val.consumptionCost.costPerKwhWithVat), 0)
             .toFixed(2)
     }
 
@@ -75,7 +75,7 @@ export class MeteringPointsDomain {
         return (consumption / meteringPoint.consumptions.length).toFixed(2)
     }
 
-    public averageMonthlyPriceFor(address: string): string {
+    public averageMonthlyPriceFor(address: string, withoutVat: boolean): string {
         const meteringPoint = this.meteringPoints.find(it => it.address === address)
 
         if (meteringPoint === undefined) {
@@ -83,7 +83,7 @@ export class MeteringPointsDomain {
         }
 
         const totalPrice: number = meteringPoint.consumptions
-            .reduce((sum: number, val: MeteringPointConsumption): number => sum + val.consumptionCost.costPerKwh, 0)
+            .reduce((sum: number, val: MeteringPointConsumption): number => sum + (withoutVat ? val.consumptionCost.costPerKwh : val.consumptionCost.costPerKwhWithVat), 0)
 
         return (totalPrice / meteringPoint.consumptions.length).toFixed(2)
     }
@@ -99,15 +99,15 @@ export class MeteringPointsDomain {
         return this.generateGraphData(this.meteringPoints);
     }
 
-    public priceChartFor(address: string): Chart {
+    public priceChartFor(address: string, withoutVat: boolean): Chart {
         const meteringPoint: MeteringPoint | undefined = this.meteringPoints.find(it => it.address === address);
         if (!meteringPoint) return {result: [], series: []};
 
-        return this.generatePriceData([meteringPoint], 'blue.6');
+        return this.generatePriceData([meteringPoint], withoutVat, 'blue.6');
     }
 
     public totalPriceChart(): Chart {
-        return this.generatePriceData(this.meteringPoints);
+        return this.generatePriceData(this.meteringPoints, false);
     }
 
     private generateGraphData(meteringPoints: MeteringPoint[], color?: string): Chart {
@@ -138,7 +138,7 @@ export class MeteringPointsDomain {
         return {result, series};
     }
 
-    private generatePriceData(meteringPoints: MeteringPoint[], color?: string): Chart {
+    private generatePriceData(meteringPoints: MeteringPoint[], withoutVat: boolean, color?: string): Chart {
         let result: BarChartEntry[] = [];
 
         Object.entries(Months).forEach(([name, month]) => {
@@ -149,7 +149,7 @@ export class MeteringPointsDomain {
                     const consumptionForMonth: MeteringPointConsumption | undefined = meteringPoint.consumptions.find(c => c.month === month);
 
                     if (consumptionForMonth) {
-                        aggregated[meteringPoint.address] = consumptionForMonth.consumptionCost.costPerKwh;
+                        aggregated[meteringPoint.address] = (withoutVat ? consumptionForMonth.consumptionCost.costPerKwh : consumptionForMonth.consumptionCost.costPerKwhWithVat);
                     }
                 });
 
