@@ -47,7 +47,6 @@ export function DashboardGeneralInformationCard({title, amount, loading, icon}: 
                             </Button>
                         </Grid.Col>
                     </Grid>
-
             }
         </Card>
     )
