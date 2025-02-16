@@ -62,9 +62,9 @@ class ConsumptionTests {
                         ZonedDateTime.parse("2024-02-29T23:59:59.999999999Z"))
         );
 
-        when(customerRepository.findByUsername("testUser")).thenReturn(Optional.of(testCustomer));
+        when(customerRepository.findByUsername(TEST_USER)).thenReturn(Optional.of(testCustomer));
         when(meteringPointRepository.findAllByCustomer(testCustomer)).thenReturn(List.of(testMeteringPoint));
-        when(energyPriceService.getEnergyPrices()).thenReturn(mockEnergyPrices);
+        when(energyPriceService.getEnergyPrices(TEST_USER)).thenReturn(mockEnergyPrices);
     }
 
     @DisplayName("Aggregate each month consumption correctly")

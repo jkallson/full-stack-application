@@ -39,7 +39,7 @@ public class ConsumptionService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "User not found"));
 
         List<MeteringPointEntity> meteringPoints = meteringPointRepository.findAllByCustomer(customer);
-        List<EnergyPriceDto> energyPrices = energyPriceService.getEnergyPrices();
+        List<EnergyPriceDto> energyPrices = energyPriceService.getEnergyPrices(username);
 
         return meteringPoints.stream()
                 .map(meteringPoint -> new MeteringPointConsumption(
