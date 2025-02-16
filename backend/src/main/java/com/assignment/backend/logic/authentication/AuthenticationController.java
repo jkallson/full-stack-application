@@ -26,13 +26,14 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        log.info("Log-in request for: {}", loginRequest.username());
         CustomerEntity authenticatedUser = authenticationService.authenticate(loginRequest);
         String jwtToken = jwtUtil.generateToken(authenticatedUser.getUsername());
 
         Cache energyPricesCache = cacheManager.getCache("energyPrices");
 
         if (energyPricesCache != null) {
-            log.info("Clearing energyPrices cache");
+            log.info("Clearing energyPrices cache for {}", authenticatedUser.getUsername());
             energyPricesCache.evict(authenticatedUser.getUsername());
         }
 

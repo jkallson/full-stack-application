@@ -23,7 +23,7 @@ public class EnergyPriceService {
 
     @Cacheable(value = "energyPrices", key = "#username")
     public List<EnergyPriceDto> getEnergyPrices (String username) {
-        log.info("Fetching energy prices over API");
+        log.info("Fetching energy prices over API for {}", username);
         String urlTemplate = UriComponentsBuilder.fromUriString(API_URL)
                 .queryParam("startDateTime", "2024-01-01T00:00:00.000Z")
                 .queryParam("endDateTime", "2024-12-31T23:59:59.999Z")
@@ -34,6 +34,7 @@ public class EnergyPriceService {
         EnergyPriceDto[] response = restTemplate.getForObject(urlTemplate, EnergyPriceDto[].class);
 
         if (response == null) {
+            log.warn("No results for energy prices fetch");
             return List.of();
         }
 
