@@ -33,7 +33,7 @@ export function InformationCard({title, amount, loading, icon}: InformationCardP
                         <Grid.Col span={8}>
                             <Text size="md" fw="400">{title}</Text>
                             <Text size="xl" fw="700">
-                                {loading ? <Loader size={24}></Loader> : amount}
+                                { amount }
                             </Text>
                         </Grid.Col>
                         <Grid.Col span={4} className="justify-end">
