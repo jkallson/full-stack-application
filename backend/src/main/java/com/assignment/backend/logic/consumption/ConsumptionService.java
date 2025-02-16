@@ -74,7 +74,13 @@ public class ConsumptionService {
                                 return null;
                             });
 
-                    return new MonthlyConsumption(month.getYear(), month.getMonthValue(), totalConsumption, energyPrice, consumptions);
+                    return new MonthlyConsumption(
+                            month.getYear(),
+                            month.getMonthValue(),
+                            totalConsumption,
+                            energyPrice,
+                            consumptions
+                    );
                 })
                 .toList();
     }

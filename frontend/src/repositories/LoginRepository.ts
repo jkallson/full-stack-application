@@ -1,6 +1,5 @@
-import axios, {AxiosResponse} from "axios";
-
-const resource = 'http://localhost:3000'
+import {AxiosResponse} from "axios";
+import axiosInstance from "../configurations/axios.ts";
 
 interface LoginRequest {
     username: string,
@@ -15,7 +14,7 @@ export interface LoginResponse {
 
 export class LoginRepository {
     static login (request: LoginRequest): Promise<LoginResponse> {
-        return axios.post(`${resource}/authentication/login`, request)
+        return axiosInstance.post('/authentication/login', request)
             .then((response: AxiosResponse<LoginResponse>) => response.data)
     }
 }

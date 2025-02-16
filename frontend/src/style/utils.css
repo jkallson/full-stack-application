@@ -2,3 +2,15 @@
     display: flex;
     justify-content: end;
 }
+
+.flex {
+    display: flex;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+}

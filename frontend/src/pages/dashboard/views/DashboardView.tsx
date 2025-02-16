@@ -4,23 +4,51 @@ import {MdElectricBolt, MdEuroSymbol} from "react-icons/md";
 import {BarChart} from "@mantine/charts";
 import {data, data2} from "../data.ts";
 import '../../../style/dashboardLayout.css'
+import {useEffect, useState} from "react";
+import {MeteringPoint, MeteringPointsRepository} from "../../../repositories/MeteringPointsRepository.ts";
+import {useAuth} from "../../../context/AuthContext.tsx";
+import {MeteringPointsDomain} from "../ts/MeteringPointsDomain.ts";
+import {useDisclosure} from "@mantine/hooks";
 
 export function DashboardView() {
+    const { user } = useAuth();
+    const [visible, { toggle }] = useDisclosure(true);
+    const [meteringPoints, setMeteringPoints] = useState<MeteringPointsDomain>();
+
+
+    useEffect(() => {
+        MeteringPointsRepository.getMeteringPoints()
+            .then((response: MeteringPoint[]) => {
+                setMeteringPoints(new MeteringPointsDomain(response))
+                toggle()
+            })
+    }, [])
+
+    const totalAmountConsumption = (): number | undefined => {
+        return meteringPoints?.getTotalAmount()
+    }
+
+    const totalAmountPrice = (): string | undefined => {
+        return meteringPoints?.getTotalPrice()
+    }
+
     return (
         <Container fluid={true} p={0} pb={20}>
             <h2>
-                Tere, Mari Mets
+                Tere, { user }
             </h2>
             <Grid>
                 <Grid.Col span={{base: 12, xs: 6}}>
                     <InformationCard title="Aastane elektrikasutus"
-                                     amount="64311 kwH"
+                                     amount={totalAmountConsumption() + " kwH"}
+                                     loading={visible}
                                      icon={<MdElectricBolt size={25}/>}
                     ></InformationCard>
                 </Grid.Col>
                 <Grid.Col span={{base: 12, xs: 6}}>
                     <InformationCard title="Aastane rahakulu"
-                                     amount="12211.123 €"
+                                     amount={totalAmountPrice() + " €"}
+                                     loading={visible}
                                      icon={<MdEuroSymbol size={25}/>}
                     ></InformationCard>
                 </Grid.Col>
