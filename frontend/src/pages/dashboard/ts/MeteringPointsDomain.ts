@@ -52,7 +52,7 @@ export class MeteringPointsDomain {
             .toFixed(2)
     }
 
-    public totalUsageFor(address: string): number {
+    public totalConsumptionFor(address: string): number {
         const meteringPoint = this.meteringPoints.find(it => it.address === address)
 
         if (meteringPoint === undefined) {

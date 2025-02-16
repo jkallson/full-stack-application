@@ -27,7 +27,7 @@ export function DashboardDetailsView() {
 
     const goToDashboard = (): void => { navigate('/dashboard') }
     const addresses: string[] = useMemo(() => meteringPoints?.addresses() ?? [], [meteringPoints]);
-    const totalUsage: number = useMemo(() => meteringPoints?.totalUsageFor(selectedAddress!) ?? "", [meteringPoints, selectedAddress]) as number;
+    const totalUsage: number = useMemo(() => meteringPoints?.totalConsumptionFor(selectedAddress!) ?? "", [meteringPoints, selectedAddress]) as number;
     const totalPrice: string = useMemo(() => meteringPoints?.totalPriceFor(selectedAddress!) ?? "", [meteringPoints, selectedAddress]);
     const averageUsage: string = useMemo(() => meteringPoints?.averageMonthlyConsumptionFor(selectedAddress!) ?? "", [meteringPoints, selectedAddress]);
     const averagePrice: string = useMemo(() => meteringPoints?.averageMonthlyPriceFor(selectedAddress!) ?? "", [meteringPoints, selectedAddress]);
