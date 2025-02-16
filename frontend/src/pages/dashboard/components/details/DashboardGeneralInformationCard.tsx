@@ -1,5 +1,5 @@
 import {Button, Card, Grid, Loader, Text, ThemeIcon} from "@mantine/core";
-import '../../../style/utils.css'
+import '../../../../style/utils.css'
 import {ReactNode} from "react";
 import {useNavigate} from "react-router";
 
@@ -10,7 +10,7 @@ interface InformationCardProps {
     icon: ReactNode
 }
 
-export function InformationCard({title, amount, loading, icon}: InformationCardProps) {
+export function DashboardGeneralInformationCard({title, amount, loading, icon}: InformationCardProps) {
     let navigate = useNavigate();
 
     const openDetails = (): void => {
@@ -30,7 +30,9 @@ export function InformationCard({title, amount, loading, icon}: InformationCardP
                     :
                     <Grid>
                         <Grid.Col span={8}>
-                            <Text size="md" fw="400">{title}</Text>
+                            <Text size="md" fw="400">
+                                {title}
+                            </Text>
                             <Text size="xl" fw="700">
                                 { amount }
                             </Text>
