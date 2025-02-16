@@ -35,7 +35,7 @@ export function Header () {
                                     leftSection={<MdOutlinePerson size={25} />}
                                     rightSection={<MdKeyboardArrowDown size={20} />}
                                 >
-                                    { user }
+                                    <span className="hide-on-small">{ user }</span>
                                 </Button>
                         </Menu.Target>
 
