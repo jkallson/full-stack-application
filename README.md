@@ -14,7 +14,7 @@
 
 ### Run via docker
 - Navigate to backend folder `cd backend` and run `./gradlew build`. That generates a build file which is needed for docker-compose
-- After that navigate back to the root folder (where docker-compose is) run ` docker-compose up --build`
+- After that navigate back to the root folder (where docker-compose is) and run ` docker-compose up --build`
 - Application should start at http://localhost:8080
 
 ## To login into the application I have created two users
