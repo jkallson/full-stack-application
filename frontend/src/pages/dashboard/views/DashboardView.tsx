@@ -2,7 +2,6 @@ import {Card, Container, Grid, Tabs} from "@mantine/core";
 import {InformationCard} from "../components/InformationCard.tsx";
 import {MdElectricBolt, MdEuroSymbol} from "react-icons/md";
 import {BarChart} from "@mantine/charts";
-import {data, data2} from "../data.ts";
 import '../../../style/dashboardLayout.css'
 import {useEffect, useState} from "react";
 import {MeteringPoint, MeteringPointsRepository} from "../../../repositories/MeteringPointsRepository.ts";
@@ -30,6 +29,22 @@ export function DashboardView() {
 
     const totalAmountPrice = (): string | undefined => {
         return meteringPoints?.getTotalPrice()
+    }
+
+    const totalConsumptionGraph = () => {
+        if (visible) {
+            return { result: [], series: [] }
+        }
+
+        return meteringPoints?.generatePerMonthConsumption()
+    }
+
+    const totalPriceGraph = () => {
+        if (visible) {
+            return { result: [], series: [] }
+        }
+
+        return meteringPoints?.generatePerMonthPrices()
     }
 
     return (
@@ -68,15 +83,12 @@ export function DashboardView() {
                             <Card className="tab-panel" shadow="sm" withBorder>
                                 <BarChart
                                     h={300}
-                                    data={data2}
+                                    data={totalConsumptionGraph().result}
                                     withLegend={true}
                                     dataKey="month"
+                                    valueFormatter={(value) => value + 'kwH'}
                                     type="stacked"
-                                    series={[
-                                        {name: 'Smartphones', color: 'violet.6'},
-                                        {name: 'Laptops', color: 'blue.6'},
-                                        {name: 'Tablets', color: 'teal.6'},
-                                    ]}
+                                    series={totalConsumptionGraph().series}
                                 />
                             </Card>
                         </Tabs.Panel>
@@ -84,15 +96,12 @@ export function DashboardView() {
                             <Card shadow="sm" className="tab-panel" padding="lg" radius="md" withBorder>
                                 <BarChart
                                     h={300}
-                                    data={data}
+                                    data={totalPriceGraph().result}
                                     dataKey="month"
                                     type="stacked"
+                                    valueFormatter={(value) => value + ' €'}
                                     withLegend={true}
-                                    series={[
-                                        {name: 'Smartphones', color: 'violet.6'},
-                                        {name: 'Laptops', color: 'blue.6'},
-                                        {name: 'Tablets', color: 'teal.6'},
-                                    ]}
+                                    series={totalPriceGraph().series}
                                 />
                             </Card>
                         </Tabs.Panel>
