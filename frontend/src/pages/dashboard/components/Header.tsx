@@ -22,7 +22,7 @@ export function Header () {
         <div className="header">
             <div className="container">
                 <div className="header-logo-container">
-                    <img className="header-image" src="/src/assets/company.svg" alt="GreenFlow Logo" onClick={toDashboard}/>
+                    <img className="header-image" src="/company.svg" alt="GreenFlow Logo" onClick={toDashboard}/>
                     <Menu withinPortal position="bottom-end" shadow="sm" transitionProps={{ transition: 'pop', duration: 100 }}>
                         <Menu.Target>
                                 <Button
