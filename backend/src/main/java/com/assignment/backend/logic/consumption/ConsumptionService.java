@@ -78,6 +78,7 @@ public class ConsumptionService {
                             month.getYear(),
                             month.getMonthValue(),
                             totalConsumption,
+                            costPerMonth(energyPrice, totalConsumption),
                             energyPrice,
                             consumptions
                     );
@@ -85,8 +86,33 @@ public class ConsumptionService {
                 .toList();
     }
 
+    private MonthlyConsumptionCost costPerMonth(EnergyPriceDto energyPrice, Double totalConsumption) {
+        if (energyPrice == null) {
+            return new MonthlyConsumptionCost(0.0, 0.0);
+        }
+
+        double costPerKwh = totalConsumption * (energyPrice.centsPerKwh() / 100);
+        double costPerKwhWithVat = totalConsumption * (energyPrice.centsPerKwhWithVat() / 100);
+
+        return new MonthlyConsumptionCost(
+                (double) Math.round(costPerKwh * 100) / 100,
+                (double) Math.round(costPerKwhWithVat * 100) / 100
+        );
+    }
+
     public record MeteringPointConsumption(String address, List<MonthlyConsumption> consumptions) { }
 
-    public record MonthlyConsumption(Integer year, Integer month, Double totalConsumption, EnergyPriceDto energyPrice, List<ConsumptionDto> entries) { }
+    public record MonthlyConsumption(
+            Integer year,
+            Integer month,
+            Double totalConsumption,
+            MonthlyConsumptionCost consumptionCost,
+            EnergyPriceDto energyPrice,
+            List<ConsumptionDto> entries) { }
+
+    public record MonthlyConsumptionCost(
+            Double costPerKwh,
+            Double costPerKwhWithVat
+    ) {}
 
 }

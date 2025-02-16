@@ -16,10 +16,16 @@ export interface EnergyPrice {
     toDateTime: string
 }
 
+export interface MonthlyConsumptionCost {
+    costPerKwh: number
+    costPerKwhWithVat: number
+}
+
 export interface MeteringPointConsumption {
     year: number
     month: number
     totalConsumption: number
+    consumptionCost: MonthlyConsumptionCost
     energyPrice: EnergyPrice
     entries: ConsumptionDto[]
 }
