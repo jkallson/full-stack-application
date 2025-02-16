@@ -1,5 +1,4 @@
 import {Button, Card, Grid, Loader, Text, ThemeIcon} from "@mantine/core";
-import '../../../style/informationCard.css'
 import '../../../style/utils.css'
 import {ReactNode} from "react";
 import {useNavigate} from "react-router";
